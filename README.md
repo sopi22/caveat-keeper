@@ -126,4 +126,4 @@ See scanner/README.md for exact, copy-pasteable setup and run
 commands.
 
 ## AUTHOR
-Jhoana Sophia Munar (jhosophie@proton.me)
+Jhoana Sophia Munar (GitHub: [@sopi22](https://github.com/sopi22))

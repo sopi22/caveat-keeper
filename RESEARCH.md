@@ -1,5 +1,13 @@
 # CAVEAT KEEPER — RESEARCH LOG
 
+> **In plain words:** this is my lab notebook for caveat-keeper. Before writing code I wrote
+> down what would show the idea doesn't work, then tested it on a fake project with planted
+> mistakes (all caught) and on real open-source projects (very few false alarms, but those
+> projects rarely write their rules in a format the tool can read yet). Each numbered section
+> below is one step, in the order I did it. "Hypothesis" = what I expected; "falsification" =
+> my attempt to prove myself wrong.
+
+
 ## 1. CLARIFICATION GATE (Section 17)
 
 Q: Does FOSS Pulse make a good first test fixture, or should a synthetic

@@ -1,4 +1,4 @@
-from claim_card.checks.entropy import check_entropy
+from caveat_keeper.checks.entropy import check_entropy
 
 PYPROJECT = """
 [project]

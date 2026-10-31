@@ -1,6 +1,6 @@
 """Extract a repo's own stated rules from its own README/RESEARCH text.
 
-This is the core design choice: claim-card does not ship a fixed rulebook.
+This is the core design choice: caveat-keeper does not ship a fixed rulebook.
 It reads whatever vocabulary lock, entropy budget, and reproducibility
 ladder a project already wrote down for itself, then checks that project's
 other artifacts against those self-declared rules.
@@ -11,7 +11,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
-from claim_card.structure import Section, split_sections
+from caveat_keeper.structure import Section, split_sections
 
 _LOCKED_RE = re.compile(r"Locked[^:]*:\s*(?P<list>.+?)(?:\n\n|\.\s*\n|\.$)", re.S)
 _FORBIDDEN_RE = re.compile(r"Forbidden:\s*(?P<list>.+?)(?:—|--|\n\n|\.\s*\n)", re.S)

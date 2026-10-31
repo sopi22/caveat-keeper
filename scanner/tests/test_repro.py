@@ -1,5 +1,5 @@
-from claim_card.checks.repro import check_repro
-from claim_card.structure import Section
+from caveat_keeper.checks.repro import check_repro
+from caveat_keeper.structure import Section
 
 
 def _closing(text, heading="CONCLUSION"):

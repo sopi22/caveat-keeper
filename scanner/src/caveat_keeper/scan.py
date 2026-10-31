@@ -13,12 +13,12 @@ import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from claim_card.checks.closure import check_caveat_survival, check_closure
-from claim_card.checks.entropy import check_entropy
-from claim_card.checks.repro import check_repro
-from claim_card.checks.vocab import check_vocab
-from claim_card.flag import Flag
-from claim_card.rules import RuleSet, extract_rules
+from caveat_keeper.checks.closure import check_caveat_survival, check_closure
+from caveat_keeper.checks.entropy import check_entropy
+from caveat_keeper.checks.repro import check_repro
+from caveat_keeper.checks.vocab import check_vocab
+from caveat_keeper.flag import Flag
+from caveat_keeper.rules import RuleSet, extract_rules
 
 _EXCLUDE_DIR_NAMES = {
     ".git", ".venv", "venv", "__pycache__", "node_modules",

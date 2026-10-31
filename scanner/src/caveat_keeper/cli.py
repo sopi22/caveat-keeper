@@ -1,17 +1,17 @@
-"""claim-card command-line entry point."""
+"""caveat-keeper command-line entry point."""
 
 from __future__ import annotations
 
 import argparse
 import sys
 
-from claim_card.report import write_report
-from claim_card.scan import scan_repo
+from caveat_keeper.report import write_report
+from caveat_keeper.scan import scan_repo
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="claim-card",
+        prog="caveat-keeper",
         description=(
             "Scan a git repo's own docs for pattern matches against that "
             "repo's own stated vocabulary lock, entropy budget, "
@@ -21,8 +21,8 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("repo", help="path to the target repo")
     parser.add_argument(
-        "-o", "--out", default="claim-card-report.json",
-        help="path to write the JSON report (default: claim-card-report.json)",
+        "-o", "--out", default="caveat-keeper-report.json",
+        help="path to write the JSON report (default: caveat-keeper-report.json)",
     )
     args = parser.parse_args(argv)
 
@@ -30,8 +30,8 @@ def main(argv: list[str] | None = None) -> int:
     write_report(result, args.out)
 
     if result.caveat_survival_rate is not None:
-        print(f"claim-card: caveat survival rate {result.caveat_survival_rate:.2f}")
-    print(f"claim-card: {len(result.flags)} pattern flag(s) written to {args.out}")
+        print(f"caveat-keeper: caveat survival rate {result.caveat_survival_rate:.2f}")
+    print(f"caveat-keeper: {len(result.flags)} pattern flag(s) written to {args.out}")
     print("Each flag is a pattern match for human review -- see notes in the report.")
     by_check: dict[str, int] = {}
     for flag in result.flags:

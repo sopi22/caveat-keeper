@@ -7,7 +7,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from claim_card.scan import ScanResult
+from caveat_keeper.scan import ScanResult
 
 
 def write_report(result: ScanResult, out_path: str | Path) -> None:

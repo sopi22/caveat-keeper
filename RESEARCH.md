@@ -1,4 +1,4 @@
-# CLAIM CARD — RESEARCH LOG
+# CAVEAT KEEPER — RESEARCH LOG
 
 ## 1. CLARIFICATION GATE (Section 17)
 
@@ -102,13 +102,13 @@ agent-audit's bundled signature packs, proof-engine's 9 hardening
 rules). The fourth (Bifrost) is unconfirmed and this finding makes no
 claim about it either way.
 
-DECISION: Claim Card's stated residual gap -- auditing a project
+DECISION: Caveat Keeper's stated residual gap -- auditing a project
 against rules that project declared for itself, not a fixed external
 rule set -- still holds against all three confirmed tools. This
 supplementary check does not change the Section 2 conclusion; it adds
 three more checked candidates without narrowing the gap. The one
 open item is Bifrost's identity, which remains genuinely unresolved,
-not resolved in Claim Card's favor by default.
+not resolved in Caveat Keeper's favor by default.
 
 ## 3. RESEARCH HYPOTHESIS FRAMING (Section 7)
 
@@ -134,7 +134,7 @@ deterministic-only approach.
 
 Locked: claim, check, flag, pattern, evidentiary grade, closure
   language, vocabulary term, entropy count, scan.
-Forbidden: capability, provider, broker, cost, negotiation. claim-card's
+Forbidden: capability, provider, broker, cost, negotiation. caveat-keeper's
   own output MUST NOT use "verified," "proven," "guaranteed," or
   "confirmed" about what it detects -- a pattern match is a flag for
   human review. Checked by hand across cli.py/report.py output strings
@@ -154,7 +154,7 @@ Entropy budget used: 4 check types (vocabulary scan, entropy check,
 ## 5. BASELINE -- MANUAL READ (recorded before comparing to tool output)
 
 Before writing any check code, README.md and RESEARCH.md in
-foss-escape-architecture were read directly, and a manual grep for the
+phone-tryout were read directly, and a manual grep for the
 repo's own forbidden-vocabulary terms and a small set of overclaiming
 words (verified, proven, guarantee(d), confirmed, always, never, 100%,
 fully) was run across all non-.venv text files.
@@ -191,7 +191,7 @@ lines apart from the text that would need to be held against them.
 
 ## 6. TOOL RESULTS
 
-RUN 1 -- foss-escape-architecture (real repo, first test case):
+RUN 1 -- phone-tryout (real repo, first test case):
   17 flags: 11 vocabulary_scan, 6 closure_audit, 0 entropy_check,
   0 reproducibility_cross_check.
   Manual review of all 17: every flag corresponds to one of the
@@ -275,7 +275,7 @@ it contains no real violations to miss.
 ## 9. REPRODUCIBILITY LEVEL (Section 12)
 
 R1 -- same environment, repeated runs during this session, both
-against foss-escape-architecture and against examples/synthetic_
+against phone-tryout and against examples/synthetic_
 violations, before and after each bug fix in Section 6.
 R2 (separate session) and R3 (separate environment/repo) have not yet
 been performed. The conclusion below is graded no higher than R1;
@@ -413,10 +413,10 @@ FACT (2026-08-14) -- follow-up hunt, restricted to the narrower
   GitHub code/repo search (`gh api search/code`, `search/repositories`)
   rather than a broad real-repo hunt. Searched, in order of
   specificity:
-    1. Direct fork/citation: repo search for "foss-escape-architecture"
-       and "claim-card"; code search for either name as a string
+    1. Direct fork/citation: repo search for "phone-tryout"
+       and "caveat-keeper"; code search for either name as a string
        reference (fork, "inspired by," citation). Result: zero -- the
-       only matches for "foss-escape-architecture" as a repo are
+       only matches for "phone-tryout" as a repo are
        sopi22's own; no code anywhere references either project by
        name.
     2. Tight combinations of this project's distinctive phrasing:
@@ -493,7 +493,7 @@ DECISION (2026-08-14) -- this is a valid, informative null result, not
 
 H1: widening vocab.py's heading-synonym detection and repro.py's
   word-overlap survival check -- more file-discovery patterns, more
-  heading synonyms -- lets Claim Card extract and check self-declared
+  heading synonyms -- lets Caveat Keeper extract and check self-declared
   limitations/non-goals/caveats sections in real, heterogeneous public
   repos, without requiring this project's own bespoke phrasing, while
   keeping false positives low enough to be useful.
@@ -936,7 +936,7 @@ RESULT: ran against all 5 targets (fresh live snapshots for the 3 real
     before -- the new code path is provably not exercised on this
     target, which is the correct non-regression result, not a
     coincidence.
-  - claim-card's own README.md/RESEARCH.md (self-scan): 13 flags (2
+  - caveat-keeper's own README.md/RESEARCH.md (self-scan): 13 flags (2
     closure_audit, 10 reproducibility_cross_check, 1 vocabulary_scan),
     CSR 0.89 -- identical counts to the pre-change baseline for the same
     reason as the synthetic fixture (closing_sections non-empty here

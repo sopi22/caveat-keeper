@@ -1,4 +1,4 @@
-from claim_card.rules import extract_rules
+from caveat_keeper.rules import extract_rules
 
 SAMPLE = """\
 1. CLARIFICATION GATE

@@ -1,7 +1,7 @@
 [project]
-name = "claim-card"
+name = "caveat-keeper"
 version = "0.1.0"
-description = "Deterministic pattern checks for a repo's docs against that repo's own stated epistemic rules"
+description = "Catches warnings that quietly disappear from project notes, by checking a repo against the rules it set for itself"
 requires-python = ">=3.11"
 dependencies = []
 
@@ -12,7 +12,7 @@ dependencies = []
 dev = ["pytest>=7"]
 
 [project.scripts]
-claim-card = "claim_card.cli:main"
+caveat-keeper = "caveat_keeper.cli:main"
 
 [build-system]
 requires = ["setuptools>=68"]

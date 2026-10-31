@@ -1,4 +1,4 @@
-from claim_card.structure import split_sections
+from caveat_keeper.structure import split_sections
 
 WRAPPED = """\
 ================================================================================

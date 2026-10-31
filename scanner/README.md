@@ -1,36 +1,40 @@
-# claim-card scanner
+# caveat-keeper scanner
 
-What this is: a deterministic, stdlib-only scanner that reads a git
-repo's own README/RESEARCH docs to extract that repo's own stated
-vocabulary lock, entropy budget, and reproducibility ladder, then
-checks that same repo's other artifacts against those self-declared
-rules. Every result is a pattern flag for human review, not a finding
-of fact -- see the confounder notes attached to each flag, and
-RESEARCH.md for what those flags meant on the two repos tested so far.
+The scanner reads a repo's own README and research notes, finds the rules that repo set
+for itself (banned words, limits, test grades), and checks the rest of the repo against
+them. Python standard library only; no network.
 
-## SETUP
-    cd scanner
-    python3 -m venv .venv && source .venv/bin/activate
-    pip install -e ".[dev]"
+Each result is a flag for a person to review, with notes on why it might be a false alarm.
 
-## RUN
-    pytest                                   # run the test suite
-    claim-card <path-to-target-repo>          # scan a repo
-    claim-card <path-to-target-repo> -o out.json
+## Setup
 
-The report is a single JSON file: the rules extracted from the target
-repo's own docs, and the list of flags, each with the file, line,
-matched pattern, and any confounder notes attached.
+```bash
+cd scanner
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+```
 
-## EXAMPLE
-    claim-card examples/synthetic_violations
+## Run
 
-examples/synthetic_violations/ is a small fixture with known,
-deliberately-planted violations, used to get an actual recall reading
-(see RESEARCH.md Section 6, RUN 2) -- it is not a real project.
+```bash
+pytest                                     # run the test suite
+caveat-keeper <path-to-target-repo>         # scan a repo
+caveat-keeper <path-to-target-repo> -o out.json
+```
 
-## SCOPE (v0.1)
-Four checks only: vocabulary scan, entropy check, reproducibility
-cross-check, closure audit. No LLM-judged pass, no GUI, no multi-repo
-support. Local static analysis only -- no network calls, no background
-processes.
+The report is a single JSON file: the rules found in the target repo's own docs, and the
+list of flags, each with file, line, matched text and notes.
+
+## Example
+
+```bash
+caveat-keeper examples/synthetic_violations
+```
+
+`examples/synthetic_violations/` is a small fake project with deliberately planted
+mistakes, used to check that every one gets caught. It is not a real project.
+
+## Scope (v0.1)
+
+Four checks: banned words, limits, test grade, dropped warnings. No AI-based review, no
+GUI, no multi-repo support. Local files only, no background processes.

@@ -1,5 +1,5 @@
-from claim_card.checks.closure import check_caveat_survival, check_closure
-from claim_card.structure import Section
+from caveat_keeper.checks.closure import check_caveat_survival, check_closure
+from caveat_keeper.structure import Section
 
 
 def _section(text, heading="CONCLUSION"):

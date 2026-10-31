@@ -5,7 +5,7 @@ Every flag here has a known ground truth, unlike a real repo.
 
 from pathlib import Path
 
-from claim_card.scan import scan_repo
+from caveat_keeper.scan import scan_repo
 
 FIXTURE = Path(__file__).parent.parent / "examples" / "synthetic_violations"
 

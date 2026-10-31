@@ -14,8 +14,8 @@ from __future__ import annotations
 
 import re
 
-from claim_card.flag import Flag
-from claim_card.structure import LIMITATION_HEADING_RE, line_at, split_sections
+from caveat_keeper.flag import Flag
+from caveat_keeper.structure import LIMITATION_HEADING_RE, line_at, split_sections
 
 _NON_GOAL_HEADING_RE = LIMITATION_HEADING_RE
 

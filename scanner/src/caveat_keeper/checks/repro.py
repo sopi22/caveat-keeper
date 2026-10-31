@@ -8,8 +8,8 @@ from __future__ import annotations
 
 import re
 
-from claim_card.flag import Flag
-from claim_card.structure import (
+from caveat_keeper.flag import Flag
+from caveat_keeper.structure import (
     LIMITATION_HEADING_RE,
     Section,
     distinctive_words,

@@ -1,129 +1,87 @@
-# CLAIM CARD
+# caveat-keeper
 
-## RESEARCH QUESTION
-Can a meaningful subset of epistemic-integrity violations in AI-agent-
-authored project artifacts -- a locked vocabulary term reappearing, an
-entropy budget being exceeded, a reproducibility grade overclaiming its
-own logged evidence, a caveat present in a log but dropped from a
-closing summary -- be detected through deterministic, pattern-based
-text and structure analysis, at a false-positive rate low enough to be
-useful to a human reviewer?
+**Catches the warnings that quietly disappear from project notes.**
 
-## HYPOTHESIS
-H1 (research hypothesis): yes -- a meaningful subset can be detected
-  this way.
-H0 (null hypothesis): no -- these violations either don't occur in a
-  consistent, detectable textual form, or deterministic analysis can't
-  tell a real violation apart from a false positive.
+When an AI helper writes a project's notes, two kinds of mistakes are easy to miss:
 
-See RESEARCH.md for the full falsification report, the manual-read
-baseline recorded before the tool was run, and what would change my
-mind (stated in advance).
+- a warning ("this only worked on one phone", "not tested on Windows") is written in the
+  log, but **dropped from the final summary**, so the summary sounds more certain than the
+  work really was;
+- a word the project said it would **never use** (or a limit it set for itself, like "two
+  probe types maximum") shows up anyway.
 
-## NON-GOALS
-This is explicitly NOT: an LLM-judged review pass, a general AI-text
-detector, a GUI, a multi-repo dashboard, a CI/CD integration, a scope-
-compliance or task-boundary checker (that space is already populated --
-see RESEARCH.md Section 2), or a tool that itself asserts a claim is
-"verified," "proven," "guaranteed," or "confirmed." A pattern match is
-a flag for human review, not a finding of fact.
+caveat-keeper reads a project's own README and research notes, picks up the rules the
+project set for itself, and checks the rest of the project against them. It uses plain
+text and structure checks, no AI model judging the text, so every result can be traced to
+an exact file and line.
 
-## CURRENT PHASE
-Phase 1 complete for v0.1 scope: the four deterministic checks (Section
-10 of the project brief) are implemented and have been run against one
-real repo (sopi22/foss-escape-architecture) and one synthetic fixture
-with known, planted violations. See RESEARCH.md Section 10 for the
-falsification report; conclusion is WEAKLY SUPPORTED, with named
-limitations -- the real-repo run has no ground truth for real
-violations (that repo appears to contain none), so it only measures
-false-positive noise on clean text, not discriminative power. The
-synthetic fixture supplies that missing ground truth and showed clean
-recall, but a fixture written to be caught is not the same evidence as
-a real repo with a real, naturally-occurring violation. Reproducibility
-achieved: R1 (same environment, repeated runs, this session). R2/R3 not
-yet performed.
+Every result is a **flag for a person to look at**, not a verdict.
 
-## SCOPE (validated vs. tested-and-not-found vs. open)
-Validated: within this project's own template family only -- repos
-that declare a vocabulary lock, an entropy budget, and an R0-R3
-reproducibility ladder in their own README/RESEARCH docs, using this
-project's own phrasing ("Locked:", "Forbidden:", "R0"-"R3",
-"CONCLUSION:"). This is the only setting the four checks have been
-run against with any extractable rules to check.
+## Why I built it
 
-Tested against 3 real external repos with genuinely different
-self-declared-constraint phrasing, none from this project's template
-family, and found zero extractable rules in any of them (see
-RESEARCH.md Section 11 for the full result):
-  - stan-dev/httpstan -- Non-Goals section, in doc/contributing.rst.
-  - openai/whisper -- Limitations section, in model-card.md.
-  - microsoft/vscode -- explicit contribution rules, in CONTRIBUTING.md.
-In each case the repo's real constraint document was not at a
-root-level README/RESEARCH path, and separately, none of the three
-repos' actual root-level README used this project's specific
-vocabulary either.
+I wanted to know whether this kind of slip can be caught with simple, repeatable checks
+instead of asking another AI model "does this look right?". I wrote down what would count
+as success and failure before running anything.
 
-This is a named, current limitation, not a bug fixed in this pass.
-Extraction generalizing beyond this project's own vocabulary and
-file-naming convention is an open question, not something planned,
-in progress, or on a roadmap -- it has not been scoped as an
-experiment yet, and won't be treated as one until it deliberately is.
+**Result so far: partly yes.** On a test project with mistakes planted on purpose, it
+catches all of them. On real open-source projects it raises almost no false alarms, but
+real projects rarely write their rules in the format it understands yet (details below).
 
-UPDATE (2026-08-14): the file-naming half of that limitation was
-tested directly -- see RESEARCH.md Section 12. File-discovery was
-widened (CONTRIBUTING.md, model-card.md, LIMITATIONS.md, top-level
-docs/*.rst) and confirmed working: whisper's model-card.md and
-vscode's CONTRIBUTING.md are now actually read, for the first time.
-But that alone doesn't unlock real-repo checking -- the deeper cause
-is that structure.py's section splitter has never recognized standard
-Markdown "#"/"##"/"###" headers, only RST-style underlines and this
-project's own numbered-caps convention, and every real repo tested
-uses Markdown headers. Falsification result: NOT SUPPORTED for the
-heading-synonym-widening mechanism as scoped (2 flags produced across
-5 real repos, both confounders on manual review). Full detail,
-including the newly-named ATX-header gap as the next open item, in
-RESEARCH.md Section 12.
+## What it checks
 
-UPDATE (2026-08-14): the ATX-header gap named above was fixed and
-falsified -- see RESEARCH.md Section 13. structure.py's section
-splitter now recognizes standard Markdown "#"/"##"/"###" headers
-(fence-aware, so a "#" inside a fenced code example isn't mistaken for
-a heading). Directly confirmed: CLIP's real "## Limitations" and
-"### Out-of-Scope Use Cases" sections are now detected with real body
-text, the exact concrete miss Section 12 named. Falsification result:
-SUPPORTED for the detection precondition -- 8 of 8 real Markdown files
-in the test set went from zero recognized headings to their real
-count, with no regression to this project's own docs or to RST files.
-This still does not produce new flags on any of the 5 real repos
-tested: a separate, already-understood mechanism (the check that
-compares a caveat's wording against a closing/summary section only
-runs when such a section exists at all, and ordinary real-world docs
-like model cards typically don't have one in this project's specific
-sense) is the reason, not a remaining detection gap. Named as the next
-open item, not fixed reactively in this pass. Full detail in
-RESEARCH.md Section 13.
+| Check | Looks for |
+|---|---|
+| Word list | Words the project banned for itself appearing anyway |
+| Limits | More items than the project's own stated maximum (e.g. "probe types: 2 maximum") |
+| Test grade | A reproducibility grade (R0–R3) stated higher than the logged runs support |
+| Dropped warnings | A warning in the log or notes that is missing from the closing summary |
 
-UPDATE (2026-08-22): the "check compares against nothing" gap named
-above was scoped, implemented, and falsified -- see RESEARCH.md Section
-14. check_repro's two caveat/limitation-wording-survival checks no
-longer require a heading-matched closing section to have anything to
-compare against; when a repo has no such section, they now fall back to
-the rest of the repo's own document text (excluding the source doc, to
-avoid a trivial self-match). Falsification result: SUPPORTED for the
-comparison-text mechanism as scoped, directly confirmed executing a real
-comparison against openai/whisper's real "Performance and Limitations"
-section (previously would have silently skipped); zero new flags and
-zero new false positives across the 5-repo test set (httpstan, whisper,
-vscode, the synthetic fixture, this repo's own docs), zero regressions
-(52/52 tests). Still produces no new true-positive-eligible flag on this
-set -- httpstan and vscode each hit a separate, already-named,
-out-of-scope precondition (httpstan's doc/-discovery gap; vscode has no
-Limitations-style section at all), not this mechanism. Full detail in
-RESEARCH.md Section 14.
+## Run it
 
-## SETUP / RUN
-See scanner/README.md for exact, copy-pasteable setup and run
-commands.
+Requires Python 3.11+. No outside services, no network.
 
-## AUTHOR
-Jhoana Sophia Munar (GitHub: [@sopi22](https://github.com/sopi22))
+```bash
+git clone https://github.com/sopi22/caveat-keeper.git
+cd caveat-keeper/scanner
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+
+pytest                                          # run the 52 tests
+caveat-keeper examples/synthetic_violations     # scan the built-in test project
+caveat-keeper <path-to-a-repo> -o report.json   # scan any repo, save the report
+```
+
+The report is one JSON file: the rules it found in the project's own docs, and every flag
+with its file, line, what matched, and notes on why it might be a false alarm.
+
+## What I found (short version)
+
+- **Planted mistakes:** a small fake project with known, deliberately planted slips. All
+  were caught.
+- **Real projects** (openai/whisper, microsoft/vscode, stan-dev/httpstan, OpenAI CLIP and
+  my own repos): almost no false alarms, but also little to check, because their rules are
+  written in ordinary prose, not in a format the tool can pick up.
+- **Fixed along the way:** it now reads standard Markdown headings (`#`, `##`, `###`), looks
+  in more files (CONTRIBUTING.md, model-card.md, LIMITATIONS.md, docs/), and can check
+  dropped warnings even when a project has no "summary" section.
+- **Still open:** understanding rules written in everyday language. That isn't started yet.
+
+The full lab notebook (every run, what I expected beforehand, what actually happened) is
+in [RESEARCH.md](RESEARCH.md).
+
+## What it is not
+
+Not an AI-text detector, not an AI-based reviewer, not a dashboard and not a CI plug-in.
+It never says something is "proven" or "verified"; it only points at text worth a second look.
+
+## Tech
+
+Python standard library only (plus pytest for tests). Local files only.
+
+## Author
+
+Jhoana Sophia Munar ([@sopi22](https://github.com/sopi22))
+
+## License
+
+MIT, see [LICENSE](LICENSE).

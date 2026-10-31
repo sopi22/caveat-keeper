@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import re
 
-from claim_card.flag import Flag
+from caveat_keeper.flag import Flag
 
 _PROBE_DEF_RE = re.compile(r"^\s*def (probe_|check_)\w+", re.M)
 _NETWORK_IMPORT_RE = re.compile(

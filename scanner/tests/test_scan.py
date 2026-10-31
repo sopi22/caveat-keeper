@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from claim_card.scan import _doc_texts
+from caveat_keeper.scan import _doc_texts
 
 
 def test_matches_widened_root_level_doc_names():

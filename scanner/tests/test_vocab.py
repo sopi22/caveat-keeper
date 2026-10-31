@@ -1,4 +1,4 @@
-from claim_card.checks.vocab import check_vocab
+from caveat_keeper.checks.vocab import check_vocab
 
 FORBIDDEN = ["provider", "capability", "cost"]
 

@@ -4,7 +4,7 @@ closing section claims nothing is pending while an OPEN/not-scheduled
 item is named elsewhere in the same docs.
 
 The signal-word list below deliberately overlaps with the words
-claim-card's own vocabulary lock forbids in its own output (see
+caveat-keeper's own vocabulary lock forbids in its own output (see
 scanner/README.txt) -- the same overclaiming pattern is what this check
 looks for in a target repo's text.
 """
@@ -13,8 +13,8 @@ from __future__ import annotations
 
 import re
 
-from claim_card.flag import Flag
-from claim_card.structure import Section, distinctive_words
+from caveat_keeper.flag import Flag
+from caveat_keeper.structure import Section, distinctive_words
 
 _SIGNAL_WORDS = (
     "verified", "proven", "guarantee", "guaranteed", "confirmed",
